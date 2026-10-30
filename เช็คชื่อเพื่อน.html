@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>เช็คชื่อเพื่อน</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg: #f3f5fb;
+            --card: #fff;
+            --text: #1c2040;
+            --muted: #6b7090;
+            --line: #e5e8f3;
+            --pri: #5b5bf0;
+            --pri2: #8b5cf6;
+            --come: #16a34a;
+            --comebg: #dcfce7;
+            --late: #d97706;
+            --latebg: #fef3c7;
+            --leave: #2563eb;
+            --leavebg: #dbeafe;
+            --abs: #e11d48;
+            --absbg: #ffe4e6;
+            --shadow: 0 6px 24px rgba(40, 44, 100, .08)
+        }
+        
+        @media (prefers-color-scheme:dark) {
+             :root:not([data-theme="light"]) {
+                --bg: #0f1020;
+                --card: #191a30;
+                --text: #eef0ff;
+                --muted: #9a9fc4;
+                --line: #2a2c4a;
+                --come: #4ade80;
+                --comebg: #14351f;
+                --late: #fbbf24;
+                --latebg: #3a2c0b;
+                --leave: #60a5fa;
+                --leavebg: #13264a;
+                --abs: #fb7185;
+                --absbg: #431424;
+                --shadow: 0 6px 24px rgba(0, 0, 0, .35)
+            }
+        }
+        
+         :root[data-theme="dark"] {
+            --bg: #0f1020;
+            --card: #191a30;
+            --text: #eef0ff;
+            --muted: #9a9fc4;
+            --line: #2a2c4a;
+            --come: #4ade80;
+            --comebg: #14351f;
+            --late: #fbbf24;
+            --latebg: #3a2c0b;
+            --leave: #60a5fa;
+            --leavebg: #13264a;
+            --abs: #fb7185;
+            --absbg: #431424;
+            --shadow: 0 6px 24px rgba(0, 0, 0, .35)
+        }
+        
+         :root {
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+        
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Noto Sans Thai', system-ui, -apple-system, sans-serif;
+            font-size: 15px;
+            line-height: 1.5
+        }
+        
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 18px 16px 100px
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--pri), var(--pri2));
+            color: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 12px 30px rgba(91, 91, 240, .35);
+            margin-bottom: 16px
+        }
+        
+        .hero h1 {
+            margin: 0;
+            font-size: 22px
+        }
+        
+        .hero small {
+            opacity: .85
+        }
+        
+        .date {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 14px;
+            background: rgba(255, 255, 255, .16);
+            border-radius: 16px;
+            padding: 6px
+        }
+        
+        .date button {
+            all: unset;
+            cursor: pointer;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 20px
+        }
+        
+        .date button:hover {
+            background: rgba(255, 255, 255, .2)
+        }
+        
+        .date div {
+            text-align: center;
+            font-weight: 600;
+            flex: 1;
+            cursor: pointer;
+            position: relative
+        }
+        
+        .date input {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            width: 100%;
+            cursor: pointer
+        }
+        
+        .pills {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap
+        }
+        
+        .pill {
+            background: rgba(255, 255, 255, .18);
+            border-radius: 99px;
+            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 600
+        }
+        
+        .bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px
+        }
+        
+        .btn {
+            border: 0;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--line)
+        }
+        
+        .btn.pri {
+            background: linear-gradient(135deg, var(--pri), var(--pri2));
+            color: #fff;
+            border: 0;
+            box-shadow: 0 6px 16px rgba(91, 91, 240, .3)
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px;
+            box-shadow: var(--shadow);
+            margin-bottom: 12px
+        }
+        
+        .who {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px
+        }
+        
+        .av {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 700;
+            flex: none
+        }
+        
+        .who b {
+            flex: 1
+        }
+        
+        .x {
+            all: unset;
+            cursor: pointer;
+            color: var(--muted);
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            border-radius: 8px
+        }
+        
+        .x:hover {
+            background: var(--bg)
+        }
+        
+        .seg {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px
+        }
+        
+        .seg button {
+            font: inherit;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1.5px solid var(--line);
+            background: var(--bg);
+            color: var(--muted);
+            border-radius: 12px;
+            padding: 9px 0;
+            cursor: pointer;
+            transition: .15s
+        }
+        
+        .seg button.on[data-s=come] {
+            background: var(--comebg);
+            border-color: var(--come);
+            color: var(--come)
+        }
+        
+        .seg button.on[data-s=late] {
+            background: var(--latebg);
+            border-color: var(--late);
+            color: var(--late)
+        }
+        
+        .seg button.on[data-s=leave] {
+            background: var(--leavebg);
+            border-color: var(--leave);
+            color: var(--leave)
+        }
+        
+        .seg button.on[data-s=abs] {
+            background: var(--absbg);
+            border-color: var(--abs);
+            color: var(--abs)
+        }
+        
+        .add {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px
+        }
+        
+        input.t {
+            font: inherit;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 10px 14px;
+            flex: 1;
+            min-width: 0;
+            outline: none
+        }
+        
+        input.t:focus {
+            border-color: var(--pri);
+            box-shadow: 0 0 0 3px rgba(91, 91, 240, .18)
+        }
+        
+        .chips {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px
+        }
+        
+        .chip {
+            border: 1px solid var(--line);
+            background: var(--card);
+            color: var(--muted);
+            padding: 8px 16px;
+            border-radius: 99px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 14px
+        }
+        
+        .chip.on {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text)
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 14px
+        }
+        
+        .st {
+            border-radius: 18px;
+            padding: 14px 8px;
+            text-align: center
+        }
+        
+        .st b {
+            font-size: 26px;
+            display: block;
+            line-height: 1.1
+        }
+        
+        .st span {
+            font-size: 13px;
+            font-weight: 600
+        }
+        
+        .s-come {
+            background: var(--comebg);
+            color: var(--come)
+        }
+        
+        .s-late {
+            background: var(--latebg);
+            color: var(--late)
+        }
+        
+        .s-leave {
+            background: var(--leavebg);
+            color: var(--leave)
+        }
+        
+        .s-abs {
+            background: var(--absbg);
+            color: var(--abs)
+        }
+        
+        .stack {
+            display: flex;
+            height: 10px;
+            border-radius: 99px;
+            overflow: hidden;
+            background: var(--line);
+            margin: 10px 0
+        }
+        
+        .stack i {
+            display: block
+        }
+        
+        .c-come {
+            background: var(--come)
+        }
+        
+        .c-late {
+            background: var(--late)
+        }
+        
+        .c-leave {
+            background: var(--leave)
+        }
+        
+        .c-abs {
+            background: var(--abs)
+        }
+        
+        .nums {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            text-align: center;
+            font-size: 13px
+        }
+        
+        .nums div {
+            border-radius: 10px;
+            padding: 6px 0;
+            font-weight: 600
+        }
+        
+        .rate {
+            font-weight: 700;
+            font-size: 15px
+        }
+        
+        .empty {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px 0
+        }
+        
+        nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--card);
+            border-top: 1px solid var(--line);
+            display: flex;
+            gap: 8px;
+            padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
+            z-index: 10;
+            justify-content: center
+        }
+        
+        nav button {
+            all: unset;
+            cursor: pointer;
+            flex: 1;
+            max-width: 260px;
+            text-align: center;
+            padding: 11px;
+            border-radius: 14px;
+            font-weight: 600;
+            color: var(--muted)
+        }
+        
+        nav button.on {
+            background: linear-gradient(135deg, var(--pri), var(--pri2));
+            color: #fff
+        }
+        
+        #toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+            transform: translate(-50%, 20px);
+            background: var(--text);
+            color: var(--bg);
+            padding: 10px 18px;
+            border-radius: 99px;
+            opacity: 0;
+            transition: .25s;
+            pointer-events: none;
+            z-index: 50;
+            font-size: 14px
+        }
+        
+        #toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="hero">
+            <h1>📋 เช็คชื่อ ม.5/4</h1><small>ปีการศึกษา 2569/2 · มา · สาย · ลา · ขาด</small>
+            <div class="date">
+                <button id="prev">‹</button>
+                <div id="dlabel"><span id="dtxt"></span><input type="date" id="dpick"></div>
+                <button id="next">›</button>
+            </div>
+            <div class="pills" id="pills"></div>
+        </div>
+
+        <section id="v1">
+            <div class="bar"><button class="btn pri" id="allcome">✓ มาทุกคน</button><button class="btn" id="clear">ล้างวันนี้</button></div>
+            <div id="list"></div>
+            <div class="add"><input class="t" id="nn" placeholder="เพิ่มชื่อเพื่อน…" maxlength="40"><button class="btn pri" id="addb">เพิ่ม</button></div>
+        </section>
+
+        <section id="v2" hidden>
+            <div class="chips"><button class="chip on" data-r="all">ทั้งหมด</button><button class="chip" data-r="month">เดือนนี้</button></div>
+            <div class="stats" id="stats"></div>
+            <div id="sum"></div>
+        </section>
+    </div>
+
+    <nav><button class="on" data-v="v1">✏️ เช็คชื่อ</button><button data-v="v2">📊 สรุป</button></nav>
+    <div id="toast"></div>
+
+    <script>
+        const ST = [
+            ['come', 'มา'],
+            ['late', 'สาย'],
+            ['leave', 'ลา'],
+            ['abs', 'ขาด']
+        ];
+        const COLORS = ['#5b5bf0', '#8b5cf6', '#ec4899', '#f97316', '#14b8a6', '#0ea5e9', '#84cc16'];
+        const $ = s => document.querySelector(s);
+        const iso = d => {
+            const z = n => String(n).padStart(2, '0');
+            return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate())
+        };
+        let friends = [],
+            rec = {},
+            date = iso(new Date()),
+            range = 'all';
+        try {
+            const s = JSON.parse(localStorage.getItem('att_54'));
+            if (s) {
+                friends = s.friends || [];
+                rec = s.rec || {}
+            }
+        } catch (e) {}
+        if (!friends.length) friends = ['นายธันธวัส รักษางาม', 'นายภัทพิยะ โคตรสาขา', 'นายคนินพัฒน์ พลเยี่ยม', 'นายศิริโชค สิงห์สีดา', 'นายวีระชาติ อินทร', 'นายกฤตภาส สุนชัยภา', 'นายกฤษณพล สุวรรณทา', 'นายธีรเมธ ทองต้น', 'นายนรธีร์ ดอนบ้านเขียว', 'นายวงศกร แรมจบก', 'นายวิชวิสิฐ คำสายอินทร์', 'นายศุภสัณห์ ไชยสาส์น', 'นายสิวานนท์ ชูชีวัน', 'นายชนะชัย มะเกลือป่า', 'นางสาวปิยดา จันทดี', 'นางสาวกัลยาณี ฑีกขุนทด', 'นางสาวศิริพันธ์ สีดารักษ์', 'นางสาวสุทธิดา ในอินทร์', 'นางสาวกรกนกนิภา โอชารส', 'นางสาวจุฑามาศ เจริญเพ็ง', 'นางสาวเจียระไน พงศ์พฤติ', 'นางสาวทิพย์ติมา พิมพ์สำราญ', 'นางสาวทิพย์อัปสร เกตุนา', 'นางสาวธีริศรา สมภาร', 'นางสาวปภัสราพร คำภา', 'นางสาวพิมพ์ภัทร อาศาจิตร', 'นางสาวมาระดา สิงห์กลาง', 'นางสาวมารีน่า อมรานัน', 'นางสาววินท์นิภา เกากุม', 'นางสาวสุกัญญา วงภูทร', 'นางสาวสุดาภัทร เลี้ยวชัยภูมิ', 'นางสาวสุกัดดา ผ่องศรี', 'นางสาวธิลา สุวรรณคร', 'นางสาวอัญชลี ภุชา'].map((n, i) => ({
+            id: i + 1,
+            name: n
+        }));
+        const save = () => {
+            try {
+                localStorage.setItem('att_54', JSON.stringify({
+                    friends,
+                    rec
+                }))
+            } catch (e) {}
+        };
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;'
+        }[c]));
+
+        function toast(m) {
+            const t = $('#toast');
+            t.textContent = m;
+            t.classList.add('show');
+            clearTimeout(toast.h);
+            toast.h = setTimeout(() => t.classList.remove('show'), 1600)
+        }
+        const day = () => rec[date] || (rec[date] = {});
+
+        function renderCheck() {
+            const d = new Date(date + 'T00:00:00');
+            $('#dtxt').textContent = d.toLocaleDateString('th-TH', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            $('#dpick').value = date;
+            const r = rec[date] || {};
+            $('#pills').innerHTML = ST.map(([k, l]) => `<span class="pill">${l} ${friends.filter(f=>r[f.id]===k).length}</span>`).join('') + `<span class="pill">ยังไม่เช็ค ${friends.filter(f=>!r[f.id]).length}</span>`;
+            $('#list').innerHTML = friends.length ? friends.map((f, i) => `
+ <div class="card" data-id="${f.id}">
+  <div class="who"><div class="av" style="background:${COLORS[i%COLORS.length]}">${i+1}</div><b>${esc(f.name)}</b><button class="x" data-del title="ลบ">✕</button></div>
+  <div class="seg">${ST.map(([k,l])=>`<button data-s="${k}" class="${r[f.id]===k?'on':''}">${l}</button>`).join('')}</div>
+ </div>`).join(''):'<div class="empty">ยังไม่มีรายชื่อ เพิ่มเพื่อนด้านล่างได้เลย</div>';
+}
+function calc(){
+ const keys=Object.keys(rec).filter(k=>range==='all'||k.slice(0,7)===date.slice(0,7));
+ return friends.map(f=>{const c={come:0,late:0,leave:0,abs:0};keys.forEach(k=>{const s=rec[k][f.id];if(s)c[s]++});const n=c.come+c.late+c.leave+c.abs;return{f,c,n,rate:n?Math.round((c.come+c.late)/n*100):null}});
+}
+function renderSum(){
+ const rows=calc(),tot={come:0,late:0,leave:0,abs:0};
+ rows.forEach(r=>ST.forEach(([k])=>tot[k]+=r.c[k]));
+ $('#stats').innerHTML=ST.map(([k,l])=>`<div class="st s-${k}"><b>${tot[k]}</b><span>${l}</span></div>`).join('');
+ $('#sum').innerHTML=rows.length?rows.map((r,i)=>`
+ <div class="card">
+  <div class="who" style="margin-bottom:0"><div class="av" style="background:${COLORS[i%COLORS.length]}">${i+1}</div><b>${esc(r.f.name)}</b><span class="rate">${r.rate===null?'–':r.rate+'%'}</span></div>
+  <div class="stack">${ST.map(([k])=>r.n?`<i class="c-${k}" style="width:${r.c[k]/r.n*100}%"></i>`:'').join('')}</div>
+  <div class="nums">${ST.map(([k,l])=>`<div class="s-${k}">${l} ${r.c[k]} วัน</div>`).join('')}</div>
+ </div>`).join(''):'<div class="empty">ยังไม่มีข้อมูล</div>';
+}
+function render(){renderCheck();renderSum()}
+
+$('#list').onclick=e=>{
+ const card=e.target.closest('.card');if(!card)return;const id=+card.dataset.id;
+ const b=e.target.closest('[data-s]');
+ if(b){const d=day();if(d[id]===b.dataset.s)delete d[id];else d[id]=b.dataset.s;save();render()}
+ if(e.target.closest('[data-del]')){const f=friends.find(x=>x.id===id);if(confirm(`ลบ “${f.name}” ออกจากรายชื่อ?`)){friends=friends.filter(x=>x.id!==id);Object.values(rec).forEach(d=>delete d[id]);save();render();toast('ลบแล้ว')}}
+};
+$('#allcome').onclick=()=>{const d=day();friends.forEach(f=>d[f.id]='come');save();render();toast('บันทึกมาทุกคนแล้ว ✓')};
+$('#clear').onclick=()=>{if(confirm('ล้างการเช็คชื่อของวันนี้?')){delete rec[date];save();render()}};
+function addF(){const n=$('#nn').value.trim();if(!n)return;friends.push({id:Date.now(),name:n});$('#nn').value='';save();render();toast('เพิ่มแล้ว')}
+$('#addb').onclick=addF;$('#nn').onkeydown=e=>{if(e.key==='Enter')addF()};
+const shift=n=>{const d=new Date(date+'T00:00:00');d.setDate(d.getDate()+n);date=iso(d);render()};
+$('#prev').onclick=()=>shift(-1);$('#next').onclick=()=>shift(1);
+$('#dpick').onchange=e=>{if(e.target.value){date=e.target.value;render()}};
+document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{range=c.dataset.r;document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===c));renderSum()});
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));$('#v1').hidden=b.dataset.v!=='v1';$('#v2').hidden=b.dataset.v!=='v2';scrollTo(0,0)});
+render();
+    </script>
+</body>
+
+</html>
